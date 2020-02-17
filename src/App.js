@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
-import './App.scss';
+import React from "react"
+import "./assets/scss/App.scss"
 
-class App extends Component {
-	render () {
-		return (
-			<div className="app">
-			</div>
-		);
-	}
-}
+const App = () => (
+  <div className="app">
+    <h1>P0m0d0r0 T1m3r</h1>
+  </div>
+)
 
-export default App;
-
+export default App
