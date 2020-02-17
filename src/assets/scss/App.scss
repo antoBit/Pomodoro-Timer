@@ -1,5 +1,177 @@
 @import "./_variables.scss";
 @import "./_mixins.scss";
+@import "./_reset.scss";
+
+/**
+FONT
+**/
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower&display=swap");
 
 .app {
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  background-color: $background;
+  text-align: center;
+  font-family: "Indie Flower", cursive;
+  padding-top: 20px;
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  .timer,
+  .tasks {
+    position: relative;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 12px;
+    padding: 20px 10px;
+  }
+
+  .timer {
+    height: 400px;
+    background-color: $tertiary;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    @include box-shadow(1px, 1px, 20px, rgba(0, 0, 0, 0.2));
+    z-index: 3;
+
+    &__circle {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      color: black;
+      border-radius: 50%;
+      border: 5px solid #eee;
+      background-color: transparent;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: $accent;
+        @include centerer(true, false);
+      }
+
+      &__time {
+        font-size: 7rem;
+      }
+
+      &__name {
+        font-size: 2rem;
+      }
+    }
+
+    &__controls {
+      width: 20%;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 12px;
+      @include box-shadow(1px, 1px, 10px, rgba(0, 0, 0, 0.3));
+
+      &__play,
+      &__pause,
+      &__stop {
+        margin: 0 5px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        svg {
+          @include transform(scale(1.1));
+        }
+
+        &:hover {
+          @include transform(scale(1.5));
+
+          svg {
+            fill: $accent;
+          }
+        }
+      }
+    }
+  }
+
+  .tasks {
+    width: 58%;
+    background-color: $accent;
+    color: #333;
+    border-top: 1px solid $background;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 2;
+    text-align: left;
+    top: -190px;
+    transition: top 0.3s linear;
+
+    &--opened {
+      top: 0;
+    }
+
+    &__toggle {
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      @include centerer(true, false);
+      z-index: 4;
+      padding: 15px;
+      cursor: pointer;
+      @include box-shadow(1px, 1px, 20px, rgba(0, 0, 0, 0.4));
+
+      svg {
+        width: 30px;
+      }
+    }
+
+    ul {
+      li {
+        display: grid;
+        grid-template-areas: 1fr 1fr;
+        margin: 20px 0;
+        grid-template-areas: "task time";
+        justify-content: center;
+        align-items: center;
+
+        span {
+          &:first-of-type {
+            grid-area: task;
+            padding: 0 10px;
+            padding-right: 5px;
+            font-size: 1.175rem;
+          }
+
+          &:last-of-type {
+            grid-area: time;
+            border-left: 1px solid #333;
+            padding: 0 10px;
+            padding-left: 30px;
+            font-size: 2rem;
+
+            svg {
+              fill: #333;
+            }
+          }
+        }
+      }
+    }
+  }
 }
