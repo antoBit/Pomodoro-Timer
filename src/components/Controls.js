@@ -3,7 +3,7 @@ import { useTimer } from "../hooks/useTimer"
 import { PlayOutline, PauseOutline, StandBy } from "react-zondicons"
 
 const Controls = () => {
-  const [, , isPlaying, setIsPlaying] = useTimer()
+  const [, , isPlaying, setIsPlaying, resetTimer] = useTimer()
 
   return (
     <div className="timer__controls">
@@ -23,10 +23,7 @@ const Controls = () => {
           <PauseOutline />
         </span>
       )}
-      <span
-        className="timer__controls__stop"
-        onClick={() => setIsPlaying(false)}
-      >
+      <span className="timer__controls__stop" onClick={() => resetTimer()}>
         <StandBy />
       </span>
     </div>

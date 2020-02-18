@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react"
 import { Context } from "../core/context"
 
-//const STANDARD_SLOTS = [1500, 300, 1500, 300]
-export const STANDARD_SLOTS = [3, 1, 3, 1]
+export const STANDARD_SLOTS = [1500, 300, 1500, 300]
+//export const STANDARD_SLOTS = [3, 1, 3, 1]
 
 export const formatTime = time => {
   const seconds = time % 60
@@ -19,8 +19,18 @@ export const useTimer = () => {
   )
   const [percentage, setPercentage] = useState(0)
 
+  const resetTimer = () => {
+    setIndex(0)
+    setPercentage(0)
+    setTimer(STANDARD_SLOTS[0])
+    setDisplayTime(formatTime(STANDARD_SLOTS[0]))
+
+    setTimeout(() => setIsPlaying(false), 300)
+  }
+
   useEffect(() => {
     if (index >= 3 && timer < 0) {
+      setIsPlaying(false)
       setDisplayTime("Well done!")
       return
     }
@@ -42,7 +52,7 @@ export const useTimer = () => {
     }
 
     return () => clearInterval(intervalID)
-  }, [index, timer, isPlaying, setTimer])
+  }, [index, timer, isPlaying, setIsPlaying, setTimer])
 
-  return [displayTime, percentage, isPlaying, setIsPlaying]
+  return [displayTime, percentage, isPlaying, setIsPlaying, resetTimer]
 }

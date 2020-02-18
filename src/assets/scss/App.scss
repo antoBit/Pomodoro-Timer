@@ -44,7 +44,7 @@ $background: #495e77;
   .timer,
   .tasks {
     position: relative;
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
     border-radius: 12px;
     padding: 20px 10px;
@@ -92,6 +92,7 @@ $background: #495e77;
 
       &__name {
         input {
+          width: 100%;
           background-color: transparent;
           border: none;
           outline: none;
@@ -163,7 +164,7 @@ $background: #495e77;
   }
 
   .tasks {
-    width: 58%;
+    width: 75%;
     min-height: 100px;
     background-color: $accent;
     color: #333;
