@@ -1,29 +1,32 @@
-import React from "react"
-import { useTimer } from "../hooks/useTimer"
+import React, { useContext } from "react"
+import { Context } from "../core/context"
 import { PlayOutline, PauseOutline, StandBy } from "react-zondicons"
 
 const Controls = () => {
-  const [, , isPlaying, setIsPlaying, resetTimer] = useTimer()
+  const { isPlaying, setIsPlaying } = useContext(Context)
 
   return (
     <div className="timer__controls">
-      {!isPlaying && (
+      {isPlaying !== "PLAY" && (
         <span
           className="timer__controls__play"
-          onClick={() => setIsPlaying(true)}
+          onClick={() => setIsPlaying("PLAY")}
         >
           <PlayOutline />
         </span>
       )}
-      {isPlaying && (
+      {isPlaying === "PLAY" && (
         <span
           className="timer__controls__pause"
-          onClick={() => setIsPlaying(false)}
+          onClick={() => setIsPlaying("PAUSE")}
         >
           <PauseOutline />
         </span>
       )}
-      <span className="timer__controls__stop" onClick={() => resetTimer()}>
+      <span
+        className="timer__controls__stop"
+        onClick={() => setIsPlaying("STOP")}
+      >
         <StandBy />
       </span>
     </div>

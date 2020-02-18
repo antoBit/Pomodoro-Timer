@@ -1,11 +1,13 @@
-import React from "react"
-import Circle from "react-circle"
-import { useTimer } from "../hooks/useTimer"
+import React, { useContext } from "react"
+import { Context } from "../core/context"
+import { useTimer, formatTime } from "../hooks/useTimer"
 import { useTasks } from "../hooks/useTasks"
+import Circle from "react-circle"
 import { EditPencil } from "react-zondicons"
 
 const Timer = () => {
-  const [displayTime, percentage] = useTimer()
+  const { isPlaying } = useContext(Context)
+  const [timer, percentage] = useTimer()
   const [tasks, editTaskName] = useTasks()
 
   return (
@@ -25,7 +27,9 @@ const Timer = () => {
         showPercentage={false}
       />
 
-      <div className="timer__circle__time">{displayTime}</div>
+      <div className="timer__circle__time">
+        {isPlaying === "FINISHED" ? "Nice!" : formatTime(timer)}
+      </div>
 
       <div className="timer__circle__name">
         <input

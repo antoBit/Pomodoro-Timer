@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useTasks } from "../hooks/useTasks"
+import { convertStringtoTime } from "../hooks/useTimer"
 import { CloseSolid, Checkmark } from "react-zondicons"
 
 const AddTask = ({ close }) => {
@@ -22,8 +23,8 @@ const AddTask = ({ close }) => {
     addTask({
       id: tasks.length,
       name: name,
-      focus: focus,
-      break: breakTime
+      focus: convertStringtoTime(focus),
+      break: convertStringtoTime(breakTime)
     })
     setIsError(false)
     close(false)

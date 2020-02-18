@@ -1,5 +1,6 @@
 import React from "react"
 import { useTasks } from "../hooks/useTasks"
+import { formatTime } from "../hooks/useTimer"
 import { HourGlass, ListAdd } from "react-zondicons"
 
 const Tasks = ({ isTaskListOpen, addTask }) => {
@@ -8,12 +9,12 @@ const Tasks = ({ isTaskListOpen, addTask }) => {
   let list = []
 
   if (tasks.length) {
-    list = tasks.map(({ id, name, focus, break: breakTime }) => (
+    list = tasks.map(({ id, name, focus }) => (
       <li key={id}>
         <span>{name}</span>
         <span>
           <HourGlass />
-          {focus}'
+          {formatTime(focus)}'
         </span>
       </li>
     ))

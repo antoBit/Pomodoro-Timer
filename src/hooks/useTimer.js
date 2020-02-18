@@ -8,7 +8,7 @@ export const formatTime = time => {
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
 }
 
-const convertStringtoTime = string => {
+export const convertStringtoTime = string => {
   const parts = string.split(":")
   const minutes = parts[0] * 60
 
@@ -16,51 +16,53 @@ const convertStringtoTime = string => {
 }
 
 export const useTimer = () => {
-  const { tasks, timer, setTimer, isPlaying, setIsPlaying } = useContext(
-    Context
-  )
-
-  const focus = convertStringtoTime(tasks[0].focus)
-  const breakTime = convertStringtoTime(tasks[0].break)
-
-  const TIME_SLOTS = [focus, breakTime, focus, breakTime]
-
+  const { tasks, isPlaying, setIsPlaying } = useContext(Context)
+  const [timer, setTimer] = useState(tasks[0].focus)
   const [index, setIndex] = useState(0)
-  const [displayTime, setDisplayTime] = useState(formatTime(TIME_SLOTS[index]))
+  const [slots, setTimeSlots] = useState([1500, 300, 1500, 300, 1800])
   const [percentage, setPercentage] = useState(0)
 
-  const resetTimer = () => {
-    setIndex(0)
-    setPercentage(0)
-    setTimer(TIME_SLOTS[0])
-    setDisplayTime(formatTime(TIME_SLOTS[0]))
-
-    setTimeout(() => setIsPlaying(false), 300)
-  }
-
   useEffect(() => {
-    if (index >= 3 && timer < 0) {
-      setIsPlaying(false)
-      setDisplayTime("Well done!")
-      return
-    }
-
-    if (timer < 0 && index < 4) {
-      setIndex(index + 1)
-      setPercentage(0)
-      setTimer(TIME_SLOTS[index + 1])
-    }
-
     let intervalID
 
-    if (isPlaying) {
-      intervalID = setInterval(() => setTimer(timer - 1), 1000)
-      setDisplayTime(formatTime(timer))
-      setPercentage(((TIME_SLOTS[index] - timer) / TIME_SLOTS[index]) * 100)
+    switch (isPlaying) {
+      case "PLAY":
+        intervalID = setInterval(() => setTimer(timer - 1), 1000)
+        setPercentage(((slots[index] - timer) / slots[index]) * 100)
+
+        if (timer <= 0) {
+          const next = index < 5 ? index + 1 : 0
+
+          if (next === 0) {
+            setIsPlaying("FINISHED")
+          } else {
+            setTimer(slots[next])
+            setIndex(next)
+          }
+        }
+        break
+
+      case "STOP":
+        setPercentage(0)
+        setIndex(0)
+        setTimer(tasks[0].focus)
+        break
+
+      case "FINISHED":
+      case "PAUSE":
+      default:
     }
 
     return () => clearInterval(intervalID)
-  }, [index, timer, isPlaying, setIsPlaying, setTimer])
+  }, [isPlaying, timer])
 
-  return [displayTime, percentage, isPlaying, setIsPlaying, resetTimer]
+  useEffect(() => {
+    const focus = tasks[0].focus
+    const breakTime = tasks[0].break
+
+    setTimeSlots([focus, breakTime, focus, breakTime, 1800])
+    setTimer(focus)
+  }, [tasks])
+
+  return [timer, percentage]
 }
