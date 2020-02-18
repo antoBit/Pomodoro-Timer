@@ -1,92 +1,48 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
+import { Context } from "./core/context"
+import Timer from "./components/Timer"
+import Controls from "./components/Controls"
+import Tasks from "./components/Tasks"
+import { ListBullet } from "react-zondicons"
+import { STANDARD_SLOTS } from "./hooks/useTimer"
 import "./assets/scss/App.scss"
-import {
-  PlayOutline,
-  PauseOutline,
-  StandBy,
-  HourGlass,
-  ListBullet
-} from "react-zondicons"
 
 const App = () => {
+  const [timer, setTimer] = useState(STANDARD_SLOTS[0])
   const [isPlaying, setIsPlaying] = useState(false)
+  const [tasks, setTasks] = useState([
+    {
+      id: 0,
+      name: "Task Name",
+      time: "25:00",
+      break: "5:00"
+    }
+  ])
   const [isTaskListOpen, setIsTaskListOpen] = useState(false)
 
   return (
     <div className="app">
       <h1>P0m0d0r0 T1m3r</h1>
-      <div className="timer">
-        <div className="timer__circle">
-          <div className="timer__circle__time">
-            <span>23:15</span>
-          </div>
-
-          <div className="timer__circle__name">
-            <span>Clean house</span>
-          </div>
+      <Context.Provider
+        value={{
+          timer: timer,
+          setTimer: setTimer,
+          isPlaying: isPlaying,
+          setIsPlaying: setIsPlaying,
+          tasks: tasks,
+          setTasks: setTasks
+        }}
+      >
+        <div className="timer">
+          <Timer />
+          <Controls />
+          <ListBullet
+            className="tasks__toggle"
+            onClick={() => setIsTaskListOpen(!isTaskListOpen)}
+          />
         </div>
-
-        <div className="timer__controls">
-          {!isPlaying && (
-            <span
-              className="timer__controls__play"
-              onClick={() => setIsPlaying(true)}
-            >
-              <PlayOutline />
-            </span>
-          )}
-          {isPlaying && (
-            <span
-              className="timer__controls__pause"
-              onClick={() => setIsPlaying(false)}
-            >
-              <PauseOutline />
-            </span>
-          )}
-          <span
-            className="timer__controls__stop"
-            onClick={() => setIsPlaying(false)}
-          >
-            <StandBy />
-          </span>
-        </div>
-        <ListBullet
-          className="tasks__toggle"
-          onClick={() => setIsTaskListOpen(!isTaskListOpen)}
-        />
-      </div>
-
-      <div className={`tasks ${isTaskListOpen ? "tasks--opened" : ""}`}>
-        <ul>
-          <li>
-            <span>
-              Labore proident ea anim duis cupidatat esse voluptate cupidatat
-              quis ex ad ipsum eiusmod.
-            </span>
-            <span>
-              <HourGlass /> 10:00'
-            </span>
-          </li>
-          <li>
-            <span>
-              Labore proident ea anim duis cupidatat esse voluptate cupidatat
-              quis ex ad ipsum eiusmod.
-            </span>
-            <span>
-              <HourGlass /> 10:00'
-            </span>
-          </li>
-          <li>
-            <span>
-              Labore proident ea anim duis cupidatat esse voluptate cupidatat
-              quis ex ad ipsum eiusmod.
-            </span>
-            <span>
-              <HourGlass /> 10:00'
-            </span>
-          </li>
-        </ul>
-      </div>
+        <Tasks isTaskListOpen={isTaskListOpen} />
+      </Context.Provider>
     </div>
   )
 }
