@@ -1,19 +1,19 @@
 import React from "react"
 import { useTasks } from "../hooks/useTasks"
-import { HourGlass, AddOutline } from "react-zondicons"
+import { HourGlass, ListAdd } from "react-zondicons"
 
-const Tasks = ({ isTaskListOpen }) => {
+const Tasks = ({ isTaskListOpen, addTask }) => {
   const [tasks] = useTasks()
 
   let list = []
 
   if (tasks.length) {
-    list = tasks.map(({ id, name, time }) => (
+    list = tasks.map(({ id, name, focus, break: breakTime }) => (
       <li key={id}>
         <span>{name}</span>
         <span>
           <HourGlass />
-          {time}'
+          {focus}'
         </span>
       </li>
     ))
@@ -25,7 +25,7 @@ const Tasks = ({ isTaskListOpen }) => {
         <ul>{list}</ul>
       </div>
       <div className="addTask">
-        <AddOutline />
+        <ListAdd onClick={() => addTask(true)} />
       </div>
     </>
   )

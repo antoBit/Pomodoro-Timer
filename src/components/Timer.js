@@ -2,6 +2,7 @@ import React from "react"
 import Circle from "react-circle"
 import { useTimer } from "../hooks/useTimer"
 import { useTasks } from "../hooks/useTasks"
+import { EditPencil } from "react-zondicons"
 
 const Timer = () => {
   const [displayTime, percentage] = useTimer()
@@ -32,6 +33,7 @@ const Timer = () => {
           value={tasks[0].name}
           onChange={event => editTaskName(event.target.value)}
         />
+        <EditPencil className="timer__circle__edit" size={15} />
       </div>
     </div>
   )

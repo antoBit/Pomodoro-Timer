@@ -27,6 +27,7 @@ $background: #495e77;
 3. App
 *********/
 .app {
+  position: relative;
   width: 100%;
   height: 100%;
   min-height: 100vh;
@@ -35,6 +36,7 @@ $background: #495e77;
   text-align: center;
   font-family: "Indie Flower", cursive;
   padding-top: 20px;
+  @include borderBox;
 
   h1 {
     margin-top: 30px;
@@ -66,7 +68,7 @@ $background: #495e77;
     &__circle {
       position: relative;
 
-      svg {
+      svg:not(.timer__circle__edit) {
         width: 60%;
         height: 60%;
 
@@ -91,8 +93,13 @@ $background: #495e77;
       }
 
       &__name {
+        position: relative;
+        display: flex;
+        align-items: center;
+
         input {
-          width: 100%;
+          max-width: 100%;
+          margin: 0 auto;
           background-color: transparent;
           border: none;
           outline: none;
@@ -112,6 +119,12 @@ $background: #495e77;
           @include breakpoint(laptop) {
             font-size: 3rem;
           }
+        }
+
+        svg {
+          position: absolute;
+          right: 50px;
+          @include centerer(false, true);
         }
       }
     }
@@ -181,7 +194,7 @@ $background: #495e77;
     }
 
     &--opened {
-      top: 0;
+      top: -5px;
     }
 
     &__toggle {
@@ -265,6 +278,101 @@ $background: #495e77;
     svg {
       width: 100% !important;
       fill: #333;
+    }
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+
+    &__inner {
+      position: relative;
+      top: 30%;
+      width: 90%;
+      min-height: 300px;
+      min-height: 150px;
+      margin: 0 auto;
+      padding: 20px 10px;
+      background-color: white;
+      color: #333;
+      border-radius: 12px;
+      @include box-shadow(1px, 1px, 20px, rgba(0, 0, 0, 0.2));
+
+      @include breakpoint(laptop) {
+        width: 40%;
+      }
+
+      p {
+        font-size: 2rem;
+      }
+
+      &__close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        fill: #333;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          @include transform(scale(1.2));
+        }
+      }
+
+      &__form {
+        font-size: 1.785rem;
+        margin-top: 20px;
+
+        &__row {
+          display: grid;
+          grid-template-columns: 3fr 7fr;
+          grid-template-areas: "label input";
+          margin-bottom: 20px;
+
+          label {
+            grid-area: label;
+            text-align: left;
+            align-self: center;
+          }
+
+          input {
+            grid-area: input;
+            height: 15px;
+            border: 1px solid #eee;
+            padding: 10px 20px;
+            outline: none;
+          }
+
+          &--error {
+            p {
+              font-size: 1.125rem;
+              color: tomato;
+            }
+          }
+        }
+      }
+
+      &__submit {
+        width: 30px;
+        height: 30px;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 50%;
+        fill: #333;
+        background-color: $primary;
+        fill: white;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          @include transform(scale(1.2));
+        }
+      }
     }
   }
 }

@@ -3,9 +3,11 @@ import { Context } from "./core/context"
 import Timer from "./components/Timer"
 import Controls from "./components/Controls"
 import Tasks from "./components/Tasks"
+import AddTask from "./components/AddTask"
 import { ListBullet } from "react-zondicons"
-import { STANDARD_SLOTS } from "./hooks/useTimer"
 import "./assets/scss/App.scss"
+
+const STANDARD_SLOTS = [1500, 300, 1500, 300]
 
 const App = () => {
   const [timer, setTimer] = useState(STANDARD_SLOTS[0])
@@ -14,11 +16,12 @@ const App = () => {
     {
       id: 0,
       name: "Task Name",
-      time: "25:00",
-      break: "5:00"
+      focus: "25:00",
+      break: "05:00"
     }
   ])
   const [isTaskListOpen, setIsTaskListOpen] = useState(false)
+  const [isModalOpened, setIsModalOpened] = useState(false)
 
   return (
     <div className="app">
@@ -41,7 +44,8 @@ const App = () => {
             onClick={() => setIsTaskListOpen(!isTaskListOpen)}
           />
         </div>
-        <Tasks isTaskListOpen={isTaskListOpen} />
+        <Tasks isTaskListOpen={isTaskListOpen} addTask={setIsModalOpened} />
+        {isModalOpened && <AddTask close={setIsModalOpened} />}
       </Context.Provider>
     </div>
   )
